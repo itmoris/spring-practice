@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring-data-jpa-practice
+  datasource:
+    url: jdbc:postgresql://localhost:5433/spring_data_jpa
+    username: postgres
+    password: postgres
