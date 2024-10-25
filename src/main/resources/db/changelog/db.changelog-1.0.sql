@@ -7,7 +7,7 @@ AS ENUM ('ADMIN', 'USER', 'EDITOR', 'ANONYMOUS');
 --changeset aibragimov:2
 
 CREATE TYPE CATEGORY
-AS ENUM ('Electronics', 'Computers', 'Smart Home');
+AS ENUM ('ELECTRONICS', 'COMPUTERS', 'SMART_HOME');
 
 --changeset aibragimov:3
 CREATE TABLE users
