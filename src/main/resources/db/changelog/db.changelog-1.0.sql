@@ -3,11 +3,12 @@
 --changeset aibragimov:1
 CREATE TYPE ROLE
 AS ENUM ('ADMIN', 'USER', 'EDITOR', 'ANONYMOUS');
+--rollback DROP TYPE  IF EXISTS ROLE;
 
 --changeset aibragimov:2
-
 CREATE TYPE CATEGORY
 AS ENUM ('ELECTRONICS', 'COMPUTERS', 'SMART_HOME');
+--rollback DROP TYPE IF EXISTS CATEGORY;
 
 --changeset aibragimov:3
 CREATE TABLE users
@@ -22,6 +23,7 @@ CREATE TABLE users
 
     PRIMARY KEY (id)
 );
+--rollback DROP TABLE IF EXISTS users;
 
 --changeset aibragimov:4
 CREATE TABLE products
@@ -35,6 +37,7 @@ CREATE TABLE products
 
     PRIMARY KEY (id)
 );
+--rollback DROP TABLE IF EXISTS products;
 
 --changeset aibragimov:5
 CREATE TABLE orders
@@ -48,6 +51,7 @@ CREATE TABLE orders
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
+--rollback DROP TABLE IF EXISTS orders;
 
 --changeset aibragimov:6
 CREATE TABLE shopping_carts
@@ -60,6 +64,7 @@ CREATE TABLE shopping_carts
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
+--rollback DROP TABLE IF EXISTS shopping_carts;
 
 --changeset aibragimov:7
 CREATE TABLE order_items
@@ -72,6 +77,7 @@ CREATE TABLE order_items
     FOREIGN KEY (order_id) REFERENCES orders (id),
     FOREIGN KEY (product_id) REFERENCES products (id)
 );
+--rollback DROP TABLE IF EXISTS order_items;
 
 --changeset aibragimov:8
 CREATE TABLE cart_items
@@ -84,3 +90,4 @@ CREATE TABLE cart_items
     FOREIGN KEY (cart_id) REFERENCES shopping_carts (id),
     FOREIGN KEY (product_id) REFERENCES products (id)
 );
+--rollback DROP TABLE IF EXISTS cart_items;
