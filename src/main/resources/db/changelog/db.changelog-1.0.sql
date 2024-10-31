@@ -80,6 +80,7 @@ CREATE TABLE order_items
 --rollback DROP TABLE IF EXISTS order_items;
 
 --changeset aibragimov:8
+--tagDatabase:1.0
 CREATE TABLE cart_items
 (
     id         BIGSERIAL,
