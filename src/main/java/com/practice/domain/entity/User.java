@@ -30,6 +30,8 @@ public class User implements Serializable {
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToOne(mappedBy = "user")
+    private ShoppingCart shoppingCart;
 
     @Override
     public final boolean equals(Object object) {
