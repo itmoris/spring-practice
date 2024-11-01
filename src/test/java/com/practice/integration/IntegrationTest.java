@@ -14,7 +14,7 @@ import static org.springframework.test.context.TestConstructor.AutowireMode.ALL;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Transactional
-@SpringBootTest
+@SpringBootTest(classes = IntegrationTestConfiguration.class)
 @TestConstructor(autowireMode = ALL)
 public @interface IntegrationTest {
 }
