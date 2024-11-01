@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.practice</groupId>
-    <artifactId>spring-data-jpa-practice</artifactId>
+    <artifactId>spring-practice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
