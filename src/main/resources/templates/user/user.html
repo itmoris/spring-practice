@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User page</title>
+</head>
+<body>
+
+<form th:action="@{/users/{id}/update(id=${user.id()})}" method="post">
+    <label for="id">Id:
+        <input id="id" name="username" type="number" th:value="${user.id()}" disabled>
+    </label><br>
+    <label for="username">Username:
+        <input id="username" name="username" type="text" th:value="${user.username()}">
+    </label><br>
+    <label for="password">Password:
+        <input id="password" name="password" type="password" th:value="${user.password()}">
+    </label><br>
+    <label for="email">Email:
+        <input id="email" name="email" type="text" th:value="${user.email()}">
+    </label><br>
+    <label for="firstname">Firstname:
+        <input id="firstname" name="firstname" type="text" th:value="${user.firstname()}">
+    </label><br>
+    <label for="lastname">Lastname:
+        <input id="lastname" name="lastname" type="text" th:value="${user.lastname()}">
+    </label><br>
+    <label for="role">Role:
+        <select id="role" name="role">
+            <option th:each="role: ${roles}"
+                    th:value="${role.name()}"
+                    th:text="${role.name()}"
+                    th:selected="${user.role().equals(role.name())}"/>
+        </select>
+    </label><br>
+
+    <button type="submit">Edit</button>
+</form>
+
+<div th:if="${user.role().equals('ADMIN')}">
+    <form th:action="@{/users/{id}/delete(id=${user.id()})}" method="post">
+        <button type="submit">Delete</button>
+    </form>
+</div>
+
+</body>
+</html>

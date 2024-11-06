@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.io.Serializable;
@@ -29,6 +31,7 @@ public class User implements Serializable {
     private String password;
     private String email;
     @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     private Role role;
     @OneToOne(mappedBy = "user")
     private ShoppingCart shoppingCart;
