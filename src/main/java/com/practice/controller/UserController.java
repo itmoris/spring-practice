@@ -1,6 +1,7 @@
 package com.practice.controller;
 
 import com.practice.domain.dto.UserCreateEditDto;
+import com.practice.domain.dto.UserFilterDto;
 import com.practice.domain.dto.UserReadDto;
 import com.practice.domain.enums.Role;
 import com.practice.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,8 +20,10 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public String findAll(Model model) {
-        model.addAttribute("users", userService.findAll());
+    public String findAll(Model model, UserFilterDto filterDto) {
+        model.addAttribute("filters", filterDto);
+        model.addAttribute("users", userService.findAll(filterDto));
+        model.addAttribute("roles", Role.values());
         return "user/users";
     }
 
@@ -35,14 +39,18 @@ public class UserController {
     }
 
     @GetMapping("/registration")
-    public String registration(Model model) {
+    public String registration(Model model, @ModelAttribute("user") UserCreateEditDto dto) {
         model.addAttribute("roles", Role.values());
         return "user/registration";
     }
 
     @PostMapping
 //    @ResponseStatus(HttpStatus.CREATED)
-    public String create(UserCreateEditDto dto) {
+    public String create(UserCreateEditDto dto, RedirectAttributes attributes) {
+//        if (true) {
+//            attributes.addFlashAttribute("user", dto);
+//            return "redirect:/users/registration";
+//        }
         UserReadDto user = userService.create(dto);
         return "redirect:/users/%s".formatted(user.id());
     }

@@ -8,8 +8,27 @@
     <title>List users</title>
 </head>
 <body>
+
+<form action="/users">
+    <label for="username">Username:
+        <input id="username" name="username" type="text" th:value="${filters.username()}">
+    </label>
+
+    <label for="role">Role:
+        <select id="role" name="role">
+            <option th:each="role: ${roles}"
+                    th:text="${role.name()}"
+                    th:value="${role.name()}"
+                    th:selected="${role.equals(filters.role())}">
+            </option>
+        </select>
+    </label>
+
+    <button type="submit">Search</button>
+</form>
+
 <div th:each="user: ${users}">
-    <a th:text="|${user.id()}. ${user.email()}|"
+    <a th:text="|${user.id()}. ${user.username()}|"
        th:href="@{/users/{userId}(userId=${user.id()})}"
     />
 </div>

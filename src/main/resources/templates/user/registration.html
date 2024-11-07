@@ -10,19 +10,19 @@
 <body>
 <form action="/users" method="post">
     <label for="username">Username:
-        <input id="username" name="username" type="text">
+        <input id="username" name="username" type="text" th:value="${user.username()}">
     </label><br>
     <label for="password">Password:
-        <input id="password" name="password" type="password">
+        <input id="password" name="password" type="password" th:value="${user.password()}">
     </label><br>
     <label for="email">Email:
-        <input id="email" name="email" type="text">
+        <input id="email" name="email" type="text" th:value="${user.email()}">
     </label><br>
     <label for="firstname">Firstname:
-        <input id="firstname" name="firstname" type="text">
+        <input id="firstname" name="firstname" type="text" th:value="${user.firstname()}">
     </label><br>
     <label for="lastname">Lastname:
-        <input id="lastname" name="lastname" type="text">
+        <input id="lastname" name="lastname" type="text" th:value="${user.lastname()}">
     </label><br>
 
     <button type="submit">Registration</button>

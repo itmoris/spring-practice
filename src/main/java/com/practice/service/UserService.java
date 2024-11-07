@@ -1,6 +1,7 @@
 package com.practice.service;
 
 import com.practice.domain.dto.UserCreateEditDto;
+import com.practice.domain.dto.UserFilterDto;
 import com.practice.domain.dto.UserReadDto;
 import com.practice.mapper.UserMapper;
 import com.practice.mapper.UserReadMapper;
@@ -21,8 +22,8 @@ public class UserService {
     private final UserReadMapper userReadMapper;
     private final UserMapper userMapper;
 
-    public List<UserReadDto> findAll() {
-        return userRepository.findAll().stream()
+    public List<UserReadDto> findAll(UserFilterDto filterDto) {
+        return userRepository.findAllByFilter(filterDto).stream()
                 .map(userReadMapper::map)
                 .collect(Collectors.toList());
     }
