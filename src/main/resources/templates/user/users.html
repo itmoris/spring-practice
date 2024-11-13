@@ -10,12 +10,21 @@
 <body>
 
 <form action="/users">
+    <label for="pageNumber">Page Number:
+        <input id="pageNumber" name="page" type="number" th:value="${pageResponse.pagination().page()}">
+    </label>
+
+    <label for="pageSize">Page Size:
+        <input id="pageSize" name="size" type="number" th:value="${pageResponse.pagination().size()}">
+    </label>
+
     <label for="username">Username:
         <input id="username" name="username" type="text" th:value="${filters.username()}">
     </label>
 
     <label for="role">Role:
         <select id="role" name="role">
+            <option selected></option>
             <option th:each="role: ${roles}"
                     th:text="${role.name()}"
                     th:value="${role.name()}"
@@ -27,7 +36,7 @@
     <button type="submit">Search</button>
 </form>
 
-<div th:each="user: ${users}">
+<div th:each="user: ${pageResponse.data()}">
     <a th:text="|${user.id()}. ${user.username()}|"
        th:href="@{/users/{userId}(userId=${user.id()})}"
     />

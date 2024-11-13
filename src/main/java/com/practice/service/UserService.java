@@ -1,18 +1,27 @@
 package com.practice.service;
 
+import com.practice.domain.dto.PageResponse;
+import com.practice.domain.dto.PageResponse.Pagination;
 import com.practice.domain.dto.UserCreateEditDto;
 import com.practice.domain.dto.UserFilterDto;
 import com.practice.domain.dto.UserReadDto;
+import com.practice.domain.entity.User;
 import com.practice.mapper.UserMapper;
 import com.practice.mapper.UserReadMapper;
 import com.practice.repository.UserRepository;
+import com.practice.util.QPredicates;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static com.practice.domain.entity.QUser.user;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +31,19 @@ public class UserService {
     private final UserReadMapper userReadMapper;
     private final UserMapper userMapper;
 
-    public List<UserReadDto> findAll(UserFilterDto filterDto) {
-        return userRepository.findAllByFilter(filterDto).stream()
+    public PageResponse<UserReadDto> findAll(UserFilterDto filterDto, Pageable pageable) {
+        Predicate predicate = QPredicates.builder()
+                .add(filterDto.username(), user.username::containsIgnoreCase)
+                .add(filterDto.role(), user.role::eq)
+                .build();
+
+        Page<User> pageResponse = userRepository.findAll(predicate, pageable);
+
+        List<UserReadDto> users = pageResponse.getContent().stream()
                 .map(userReadMapper::map)
-                .collect(Collectors.toList());
+                .collect(toList());
+
+        return new PageResponse<>(users, Pagination.of(pageResponse));
     }
 
     public Optional<UserReadDto> findById(Long id) {

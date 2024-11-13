@@ -8,6 +8,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class UserFilterRepositoryImpl implements UserFilterRepository {
 
     @Override
     @Transactional
-    public List<User> findAllByFilter(UserFilterDto filterDto) {
+    public List<User> findAllByFilter(UserFilterDto filterDto, Pageable pageable) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> root = query.from(User.class);
@@ -38,6 +39,9 @@ public class UserFilterRepositoryImpl implements UserFilterRepository {
 
         query = query.select(root).where(predicates.toArray(new Predicate[0]));
 
-        return em.createQuery(query).getResultList();
+        return em.createQuery(query)
+                .setFirstResult(pageable.getPageSize())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
     }
 }
