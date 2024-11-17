@@ -8,3 +8,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+server:
+  error:
+    whitelabel:
+      enabled: false
