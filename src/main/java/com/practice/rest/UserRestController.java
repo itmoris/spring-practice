@@ -1,13 +1,17 @@
 package com.practice.rest;
 
 import com.practice.domain.dto.*;
+import com.practice.exception.AvatarNotFoundException;
 import com.practice.exception.UserNotFoundException;
 import com.practice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 import java.util.List;
@@ -30,11 +34,21 @@ public class UserRestController {
                 .orElseThrow(UserNotFoundException::new);
     }
 
+    @GetMapping(value = "/{userId}/avatar", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public byte[] findAvatarById(@PathVariable long userId) {
+        return userService.findAvatarById(userId).orElseThrow(AvatarNotFoundException::new);
+    }
+
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody @Validated UserCreateDto userCreateDto) {
         long userId = userService.create(userCreateDto);
 
         return ResponseEntity.created(URI.create("/users/" + userId)).build();
+    }
+
+    @PutMapping(value = "/{userId}/avatar", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void saveAvatar(@PathVariable long userId, @RequestParam("file") MultipartFile file) {
+        userService.saveAvatar(userId, file);
     }
 
     @PatchMapping("/{userId}")

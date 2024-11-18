@@ -33,6 +33,7 @@ public class RestResponse<T> {
         this.errors.add(error);
     }
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public record RestErrors(
             Integer status,
             String field,
@@ -47,6 +48,7 @@ public class RestResponse<T> {
         }
     }
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public record Pagination(
             Integer page,
             Integer size,

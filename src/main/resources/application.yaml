@@ -1,6 +1,9 @@
 spring:
   application:
     name: spring-data-jpa-practice
+    media:
+      image:
+        bucket: /media/image/rest
   datasource:
     url: jdbc:postgresql://localhost:5433/spring_data_jpa
     username: postgres

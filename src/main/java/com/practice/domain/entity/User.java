@@ -29,6 +29,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String email;
+    private String imagePath;
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Role role;
