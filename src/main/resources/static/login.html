@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Page</title>
+</head>
+<body>
+    <h1>Sign in</h1>
+    <form action="/login" method="post">
+        <div>
+            <span id="bad_span" style="color: red; display: none">Bad credentials</span>
+            <span id="logout_span" style="color: green; display: none">Successfully logged out</span>
+        </div>
+        <label for="username">
+            <input id="username" name="username" type="text" placeholder="Username">
+        </label>
+        <br>
+        <label for="password">
+            <input id="password" name="password" type="password" placeholder="Password">
+        </label>
+        <br>
+        <button type="submit">Sign in</button><br>
+        <a href="/oauth2/authorization/google">Login with Google</a>
+    </form>
+</body>
+
+<script>
+    let badSpan = document.getElementById("bad_span");
+    let logoutSpan = document.getElementById("logout_span");
+    let params = new URL(location.href).searchParams;
+
+    if (params.has("error")) {
+        badSpan.style = "color:red; display:block";
+    } else if (params.has("logout")) {
+        logoutSpan.style = "color:green; display:block";
+    }
+</script>
+
+</html>

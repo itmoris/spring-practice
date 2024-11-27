@@ -15,15 +15,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static com.practice.domain.entity.QUser.user;
 import static java.util.Objects.isNull;
@@ -33,7 +34,7 @@ import static java.util.UUID.randomUUID;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class UserService {
+public class UserService implements UserDetailsService {
     private final ImageService imageService;
     private final UserRepository userRepository;
     private final UserToUserReadMapper userToUserReadMapper;
@@ -61,6 +62,16 @@ public class UserService {
 
     public Optional<UserReadDto> findById(Long id) {
         return userRepository.findById(id)
+                .map(userToUserReadMapper::map);
+    }
+
+    public Optional<UserReadDto> findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(userToUserReadMapper::map);
+    }
+
+    public Optional<UserReadDto> findByEmail(String email) {
+        return userRepository.findByEmail(email)
                 .map(userToUserReadMapper::map);
     }
 
@@ -128,5 +139,11 @@ public class UserService {
                     return true;
                 })
                 .orElse(false);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsernameOrEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

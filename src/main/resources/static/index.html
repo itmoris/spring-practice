@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Users List</title>
+</head>
+<body>
+<div>
+    <span id="current_user"></span>
+    <form action="/logout" method="get">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Username</td>
+    </tr>
+    </thead>
+    <tbody id="table_body"></tbody>
+</table>
+</body>
+
+<script>
+    let tableBody = document.getElementById("table_body");
+    let currentUserSpan = document.getElementById("current_user");
+
+    fetch("/api/v1/users/current")
+        .then(value => value.json())
+        .then(json => {
+            let user = json['data'];
+            currentUserSpan.innerText = user['username'];
+        })
+
+    fetch("/api/v1/users")
+        .then(value => value.json())
+        .then(json => {
+            let users = json['data'];
+
+            users.forEach(user => {
+                const id = user['id'];
+                const username = user['username'];
+
+                tableBody.innerHTML += `<tr><td>${id}</td><td>${username}</td></tr>`
+            });
+        });
+</script>
+
+</html>

@@ -11,6 +11,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            scope: openid,email,profile
 
 server:
   error:

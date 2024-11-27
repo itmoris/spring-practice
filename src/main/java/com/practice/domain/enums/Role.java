@@ -1,5 +1,13 @@
 package com.practice.domain.enums;
 
-public enum Role {
-    ANONYMOUS, USER, EDITOR, ADMIN
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
+    ANONYMOUS, USER, EDITOR, ADMIN;
+
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
